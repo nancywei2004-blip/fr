@@ -53,13 +53,52 @@
             color: #002654;
             font-weight: 700;
         }
+
+        /* 新增：漂浮的法國文化元素動畫 */
+        @keyframes float-up {
+            0% { transform: translateY(100vh) rotate(0deg) scale(0.8); opacity: 0; }
+            10% { opacity: 0.15; }
+            90% { opacity: 0.15; }
+            100% { transform: translateY(-20vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+        .french-element {
+            position: fixed;
+            z-index: 1; /* 介於背景和卡片之間 */
+            pointer-events: none;
+            user-select: none;
+            animation: float-up 15s linear infinite;
+            color: #002654;
+            opacity: 0;
+            font-size: 2rem;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+        /* 給不同的元素不同的動畫延遲與時間，製造隨機感 */
+        .delay-1 { animation-delay: 1s; animation-duration: 18s; left: 10%; }
+        .delay-2 { animation-delay: 5s; animation-duration: 22s; left: 80%; }
+        .delay-3 { animation-delay: 3s; animation-duration: 16s; left: 30%; }
+        .delay-4 { animation-delay: 8s; animation-duration: 20s; left: 65%; font-size: 2.5rem; }
+        .delay-5 { animation-delay: 12s; animation-duration: 19s; left: 45%; }
+        .delay-6 { animation-delay: 0s; animation-duration: 25s; left: 20%; font-size: 1.5rem; }
+        .delay-7 { animation-delay: 7s; animation-duration: 17s; left: 85%; }
     </style>
 </head>
 
-<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4 md:p-8 font-sans selection:bg-french-blue selection:text-white relative overflow-hidden">
+<body class="bg-gray-50 min-h-screen grid place-items-center py-12 px-4 md:px-8 font-sans selection:bg-french-blue selection:text-white relative overflow-x-hidden">
     
     <!-- 背景裝飾元素 -->
     <div class="absolute top-0 left-0 w-full h-64 bg-french-blue z-0 rounded-b-[3rem] shadow-lg"></div>
+    
+    <!-- 新增：法式文化漂浮元素 -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-[1]">
+        <div class="french-element delay-1">🗼</div>
+        <div class="french-element delay-2">🥐</div>
+        <div class="french-element delay-3">🍷</div>
+        <div class="french-element delay-4">🎨</div>
+        <div class="french-element delay-5">🥖</div>
+        <div class="french-element delay-6">🧀</div>
+        <div class="french-element delay-7">⚜️</div>
+    </div>
+
     <!-- 模擬法國國旗顏色的裝飾條 -->
     <div class="absolute top-0 left-0 w-full h-2 flex z-10">
         <div class="h-full w-1/3 bg-french-blue"></div>
@@ -69,24 +108,27 @@
 
     <div class="w-full max-w-lg bg-white rounded-2xl shadow-2xl z-10 overflow-hidden relative" id="main-card">
         <!-- 卡片頂部活動資訊 -->
-        <div class="bg-white p-8 pb-6 border-b border-gray-100">
+        <div class="bg-white p-8 pb-6 border-b border-gray-100 relative overflow-hidden">
+            <!-- 裝飾浮水印 -->
+            <i class="ph ph-flower-lotus absolute -right-6 -bottom-6 text-9xl text-gray-50 opacity-50 transform -rotate-12 pointer-events-none"></i>
+            
             <div class="flex justify-center mb-4">
-                <div class="bg-blue-50 text-french-blue px-3 py-1 rounded-full text-xs font-semibold tracking-wider flex items-center gap-1">
-                    <i class="ph ph-sparkle"></i> DEPARTMENT OF FRENCH
+                <div class="bg-blue-50 text-french-blue px-4 py-1.5 rounded-full text-xs font-bold tracking-wider flex items-center gap-1.5 border border-blue-100 shadow-sm">
+                    <span class="text-french-red">⚜️</span> DÉPARTEMENT DE FRANÇAIS <span class="text-french-red">⚜️</span>
                 </div>
             </div>
-            <h1 class="text-3xl text-center font-bold text-gray-800 mb-2 font-serif">法文系營隊活動</h1>
-            <p class="text-center text-gray-500 mb-6 text-sm">Bonjour! 誠摯邀請您參與我們的營隊</p>
+            <h1 class="text-3xl text-center font-bold text-gray-800 mb-2 font-serif tracking-wide">法文系營隊活動</h1>
+            <p class="text-center text-gray-500 mb-6 text-sm font-medium">Bienvenue! 誠摯邀請您參與我們的法式饗宴 🥂</p>
             
-            <div class="flex flex-col md:flex-row justify-center gap-4 text-sm text-gray-700 bg-gray-50 p-4 rounded-xl">
+            <div class="flex flex-col md:flex-row justify-center gap-4 text-sm text-gray-700 bg-gray-50/80 backdrop-blur p-4 rounded-xl border border-gray-100">
                 <div class="flex items-center gap-2">
-                    <i class="ph ph-calendar-blank text-french-blue text-lg"></i>
+                    <i class="ph ph-calendar-check text-french-blue text-xl drop-shadow-sm"></i>
                     <span><strong>日期：</strong>10月7日 (三)</span>
                 </div>
                 <div class="hidden md:block text-gray-300">|</div>
                 <div class="flex items-center gap-2">
-                    <i class="ph ph-clock text-french-blue text-lg"></i>
-                    <span><strong>時間：</strong>晚上 7:00 - 9:00</span>
+                    <i class="ph ph-clock text-french-blue text-xl drop-shadow-sm"></i>
+                    <span><strong>時間：</strong>19:00 - 21:00</span>
                 </div>
             </div>
         </div>
@@ -145,27 +187,30 @@
 
                 <!-- 分組選擇 (Radio Buttons) -->
                 <div class="space-y-3">
-                    <label class="block text-sm font-medium text-gray-700">選擇分組 <span class="text-french-red">*</span></label>
+                    <label class="block text-sm font-medium text-gray-700">選擇分組 (Choisissez votre groupe) <span class="text-french-red">*</span></label>
                     <div class="grid grid-cols-3 gap-3">
                         <label class="cursor-pointer relative">
                             <input type="radio" name="group" value="A" required class="peer sr-only">
-                            <div class="w-full text-center py-3 border border-gray-200 rounded-lg text-gray-600 transition-all hover:bg-gray-50 peer-focus:ring-2 peer-focus:ring-french-blue">
-                                <span class="block text-xl font-bold font-serif mb-1">A</span>
-                                <span class="text-xs">組別</span>
+                            <div class="w-full text-center py-3 border border-gray-200 rounded-lg text-gray-600 transition-all hover:bg-gray-50 peer-focus:ring-2 peer-focus:ring-french-blue group">
+                                <span class="block text-2xl mb-1 group-hover:scale-110 transition-transform">🗼</span>
+                                <span class="block text-xl font-bold font-serif mb-0.5">A</span>
+                                <span class="text-[10px] text-gray-400">巴黎組</span>
                             </div>
                         </label>
                         <label class="cursor-pointer relative">
                             <input type="radio" name="group" value="B" class="peer sr-only">
-                            <div class="w-full text-center py-3 border border-gray-200 rounded-lg text-gray-600 transition-all hover:bg-gray-50 peer-focus:ring-2 peer-focus:ring-french-blue">
-                                <span class="block text-xl font-bold font-serif mb-1">B</span>
-                                <span class="text-xs">組別</span>
+                            <div class="w-full text-center py-3 border border-gray-200 rounded-lg text-gray-600 transition-all hover:bg-gray-50 peer-focus:ring-2 peer-focus:ring-french-blue group">
+                                <span class="block text-2xl mb-1 group-hover:scale-110 transition-transform">🥐</span>
+                                <span class="block text-xl font-bold font-serif mb-0.5">B</span>
+                                <span class="text-[10px] text-gray-400">烘焙組</span>
                             </div>
                         </label>
                         <label class="cursor-pointer relative">
                             <input type="radio" name="group" value="C" class="peer sr-only">
-                            <div class="w-full text-center py-3 border border-gray-200 rounded-lg text-gray-600 transition-all hover:bg-gray-50 peer-focus:ring-2 peer-focus:ring-french-blue">
-                                <span class="block text-xl font-bold font-serif mb-1">C</span>
-                                <span class="text-xs">組別</span>
+                            <div class="w-full text-center py-3 border border-gray-200 rounded-lg text-gray-600 transition-all hover:bg-gray-50 peer-focus:ring-2 peer-focus:ring-french-blue group">
+                                <span class="block text-2xl mb-1 group-hover:scale-110 transition-transform">🎨</span>
+                                <span class="block text-xl font-bold font-serif mb-0.5">C</span>
+                                <span class="text-[10px] text-gray-400">藝術組</span>
                             </div>
                         </label>
                     </div>
@@ -182,18 +227,56 @@
                     </button>
                 </div>
             </form>
+
+            <!-- 各組報名狀況面板 (新增功能) -->
+            <div id="group-status-section" class="mt-8 pt-6 border-t border-gray-100">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-md font-bold text-gray-800 font-serif flex items-center gap-2">
+                        <i class="ph ph-users-three text-french-blue text-xl"></i>
+                        各組報名現況
+                    </h3>
+                    <button type="button" onclick="refreshPublicData()" class="text-xs text-gray-500 hover:text-french-blue transition-colors flex items-center gap-1 bg-gray-50 hover:bg-gray-100 px-2.5 py-1.5 rounded-full border border-gray-200">
+                        <i class="ph ph-arrows-clockwise" id="public-refresh-icon"></i> 更新名單
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-3">
+                    <!-- A組 -->
+                    <div class="bg-red-50/50 rounded-xl p-3 border border-red-100">
+                        <h4 class="text-center font-bold text-red-700 border-b border-red-100 pb-2 mb-2 text-sm flex items-center justify-center gap-1">🗼 A 組</h4>
+                        <ul id="list-group-A" class="space-y-2 text-sm min-h-[40px] flex flex-col items-center">
+                            <li class="text-gray-400 italic text-xs py-1">Chargement...</li>
+                        </ul>
+                    </div>
+                    <!-- B組 -->
+                    <div class="bg-blue-50/50 rounded-xl p-3 border border-blue-100">
+                        <h4 class="text-center font-bold text-blue-700 border-b border-blue-100 pb-2 mb-2 text-sm flex items-center justify-center gap-1">🥐 B 組</h4>
+                        <ul id="list-group-B" class="space-y-2 text-sm min-h-[40px] flex flex-col items-center">
+                            <li class="text-gray-400 italic text-xs py-1">Chargement...</li>
+                        </ul>
+                    </div>
+                    <!-- C組 -->
+                    <div class="bg-green-50/50 rounded-xl p-3 border border-green-100">
+                        <h4 class="text-center font-bold text-green-700 border-b border-green-100 pb-2 mb-2 text-sm flex items-center justify-center gap-1">🎨 C 組</h4>
+                        <ul id="list-group-C" class="space-y-2 text-sm min-h-[40px] flex flex-col items-center">
+                            <li class="text-gray-400 italic text-xs py-1">Chargement...</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- 成功訊息畫面 (對話與入場證明，預設隱藏) -->
         <div id="success-screen" class="hidden absolute inset-0 bg-gray-50 z-20 flex flex-col p-6 overflow-y-auto">
             <!-- 聊天頭像與標題 -->
             <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200">
-                <div class="w-10 h-10 bg-french-blue rounded-full flex items-center justify-center text-white shadow-md">
-                    <i class="ph ph-robot text-xl"></i>
+                <div class="w-10 h-10 bg-french-blue rounded-full flex items-center justify-center text-white shadow-md text-xl relative">
+                    👨‍🎨
+                    <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></span>
                 </div>
                 <div>
-                    <h3 class="font-bold text-gray-800 text-sm">營隊客服小幫手</h3>
-                    <span class="text-xs text-green-500 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500"></span>在線</span>
+                    <h3 class="font-bold text-gray-800 text-sm">法籍藝術家小幫手</h3>
+                    <span class="text-[10px] text-gray-500 flex items-center gap-1">En ligne (在線)</span>
                 </div>
             </div>
 
@@ -201,21 +284,21 @@
             <div class="space-y-4 flex-1">
                 <!-- 訊息 1 -->
                 <div class="flex items-end gap-2" style="opacity: 0; animation: fadeIn 0.5s ease-out forwards;">
-                    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
-                        <i class="ph ph-robot text-gray-500"></i>
+                    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0 text-sm shadow-sm border border-white">
+                        👨‍🎨
                     </div>
                     <div class="bg-white p-3 rounded-2xl rounded-bl-none shadow-sm text-sm text-gray-700 max-w-[85%] border border-gray-100">
-                        Bonjour！太棒了，我們已經收到您的報名資料 🎉
+                        <span class="font-bold text-french-blue">Magnifique!</span> (太棒了！) <br>我們已經收到您的報名資料 🎉
                     </div>
                 </div>
                 
                 <!-- 訊息 2 -->
                 <div class="flex items-end gap-2" style="opacity: 0; animation: fadeIn 0.5s ease-out 0.8s forwards;">
-                    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
-                        <i class="ph ph-robot text-gray-500"></i>
+                    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0 text-sm shadow-sm border border-white">
+                        👨‍🎨
                     </div>
                     <div class="bg-white p-3 rounded-2xl rounded-bl-none shadow-sm text-sm text-gray-700 max-w-[85%] border border-gray-100">
-                        這是為您生成的專屬入場證明，活動當天請出示此畫面（建議截圖保存）來報到喔！
+                        這是為您準備的專屬電子票券 🎟️ <br>活動當天請出示此畫面（建議截圖保存）來報到喔！À bientôt !
                     </div>
                 </div>
 
@@ -239,8 +322,8 @@
                                     <p class="text-base font-bold text-gray-800" id="ticket-id">-</p>
                                 </div>
                                 <div class="text-right">
-                                    <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">組別 Group</p>
-                                    <p class="text-xl font-bold text-french-red font-serif" id="ticket-group">-</p>
+                                    <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">組別 Groupe</p>
+                                    <p class="text-xl font-bold text-french-red font-serif flex justify-end gap-1 items-center" id="ticket-group">-</p>
                                 </div>
                             </div>
                             <div class="border-t border-dashed border-gray-200 pt-3 mt-1">
@@ -459,10 +542,61 @@
         const queryError = document.getElementById('query-error');
         const searchLoader = document.getElementById('search-loader');
         
+        // 分組現況相關元素 (新增)
+        const listGroupA = document.getElementById('list-group-A');
+        const listGroupB = document.getElementById('list-group-B');
+        const listGroupC = document.getElementById('list-group-C');
+        const publicRefreshIcon = document.getElementById('public-refresh-icon');
+
         let isFrontendEditMode = false; // 追蹤目前前端表單是否為更新模式
 
         // 資料陣列改為空，改從 GAS 抓取
         let registrationsData = [];
+
+        // 載入公開的分組資料函數 (新增)
+        window.refreshPublicData = async () => {
+            publicRefreshIcon.classList.add('animate-spin');
+            try {
+                const response = await fetch(GAS_URL);
+                registrationsData = await response.json();
+                renderPublicGroupStatus();
+            } catch (error) {
+                console.error("無法載入名單:", error);
+                const errorLi = `<li class="text-red-400 text-xs py-1">讀取失敗</li>`;
+                listGroupA.innerHTML = errorLi; listGroupB.innerHTML = errorLi; listGroupC.innerHTML = errorLi;
+            } finally {
+                publicRefreshIcon.classList.remove('animate-spin');
+            }
+        };
+
+        // 渲染公開名單畫面 (新增)
+        function renderPublicGroupStatus() {
+            listGroupA.innerHTML = ''; listGroupB.innerHTML = ''; listGroupC.innerHTML = '';
+            
+            const groupA = registrationsData.filter(r => r.group === 'A');
+            const groupB = registrationsData.filter(r => r.group === 'B');
+            const groupC = registrationsData.filter(r => r.group === 'C');
+            
+            const renderList = (groupData, element, textColor) => {
+                if (groupData.length === 0) {
+                    element.innerHTML = `<li class="text-gray-400 text-[11px] italic py-2">－ 無人報名 －</li>`;
+                    return;
+                }
+                groupData.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = `w-full text-center py-1.5 px-2 bg-white rounded-lg shadow-sm border border-white flex justify-center items-center gap-1.5 text-xs font-bold ${textColor}`;
+                    li.innerHTML = `<i class="ph ph-user-circle text-base opacity-70"></i> <span class="truncate">${item.name}</span>`;
+                    element.appendChild(li);
+                });
+            };
+
+            renderList(groupA, listGroupA, 'text-red-700');
+            renderList(groupB, listGroupB, 'text-blue-700');
+            renderList(groupC, listGroupC, 'text-green-700');
+        }
+
+        // 網頁載入完成時，自動讀取一次資料
+        window.addEventListener('DOMContentLoaded', refreshPublicData);
 
         // 開啟密碼彈窗
         adminBtn.addEventListener('click', () => {
@@ -539,6 +673,7 @@
                 const data = await response.json();
                 registrationsData = data;
                 renderDashboard();
+                renderPublicGroupStatus(); // 新增：同步更新前端分組名單
             } catch (error) {
                 console.error("無法載入資料:", error);
                 registrationList.innerHTML = `<tr><td colspan="6" class="text-center p-8 text-french-red">無法連接資料庫，請確認 GAS URL 是否正確。</td></tr>`;
@@ -764,10 +899,16 @@
                 email: formData.get('email')
             };
 
+            // 依據組別取得對應圖示
+            let groupIcon = '';
+            if(newRegistration.group === 'A') groupIcon = '🗼';
+            if(newRegistration.group === 'B') groupIcon = '🥐';
+            if(newRegistration.group === 'C') groupIcon = '🎨';
+
             // 更新對話框中的電子入場證明資料
             document.getElementById('ticket-name').textContent = newRegistration.name;
             document.getElementById('ticket-id').textContent = newRegistration.studentId;
-            document.getElementById('ticket-group').textContent = newRegistration.group + ' 組';
+            document.getElementById('ticket-group').innerHTML = `${groupIcon} ${newRegistration.group} 組`;
 
             // 1. 切換按鈕為讀取狀態
             btnText.textContent = '處理中...';
@@ -787,6 +928,9 @@
                     body: JSON.stringify(newRegistration)
                 });
                 
+                // 新增：報名或更新成功後，重新整理前台的分組名單
+                refreshPublicData();
+
                 // 等待請求完成後顯示成功畫面
                 formContainer.classList.add('fade-out');
                 setTimeout(() => {
